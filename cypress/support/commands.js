@@ -62,6 +62,26 @@ export function excluirUsuario(userId, token) {
     headers: {
       authorization: token,
     },
-    failOnStatusCode: false, // permite testar erros
+    failOnStatusCode: false, 
   });
+}
+export function editarUsuario(userId, token, dadosAtualizados, failOnStatusCode = true) {
+    return cy.request({
+        method: "PUT",
+        url: `${Cypress.env("apiUrl")}/usuarios/${userId}`,
+        headers: {
+            authorization: token,
+        },
+        body: dadosAtualizados,
+        failOnStatusCode: failOnStatusCode
+    });
+}
+export function buscarUsuarioPorId(userId) {
+      return cy.request({
+        method: "GET",
+        url: `${Cypress.env("apiUrl")}/usuarios/${userId}`,
+      }).then((response) => {
+        expect(response.status).to.eq(200);
+        expect(response.body).to.have.property("_id", userId);
+      });
 }

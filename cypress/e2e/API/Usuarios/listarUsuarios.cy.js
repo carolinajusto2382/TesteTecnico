@@ -1,6 +1,6 @@
 describe("Listagem de usuários", () => {
-  const nomeUsuario = "Dallas Kuhn DDS";
-  const emailUsuario = "Dakota9@hotmail.com";
+  const nomeUsuario = "Fulano";
+  const emailUsuario = "fulanoteste@qa.com";
   context("Cenários de sucesso", () => {
     it("Listar todos os usuários cadastrados", () => {
       cy.request({
