@@ -51,7 +51,7 @@ describe("Exclusão de usuário", () => {
       const email = `qa${Date.now()}@teste.com`;
       const senha = "123456";
       const administrador = "true";
-      const produtoId = "BeeJh5lz3k6kSIzA"; // ID de produto válido na API
+      const produtoId = "BeeJh5lz3k6kSIzA";
 
       criarUsuario(nome, email, senha,administrador).then((userId) => {
         loginUsuario(email, senha).then((token) => {
