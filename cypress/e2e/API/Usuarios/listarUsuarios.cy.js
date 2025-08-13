@@ -73,6 +73,7 @@ describe("Listagem de usuários", () => {
           administrador: true,
         },
       }).then((response) => {
+        expect(response.status).to.eq(200);
         expect(response.body.usuarios[0].nome)
           .to.contain("Fulano da Silva")
           .that.is.a("string");
