@@ -6,7 +6,7 @@ describe("Listagem de produtos", () => {
   const qtdProduto = 381;
   const produtoIdInvalido = "idInvalido123456";
 
-  context("Cenário de sucesso", () => {
+  context("Cenários de sucesso", () => {
     it("Listar todos os produtos cadastrados", () => {
       cy.request({
         method: "GET",
@@ -59,7 +59,7 @@ describe("Listagem de produtos", () => {
         qs: { descricao: descricaoProduto },
       }).then((response) => {
         expect(response.status).to.eq(200);
-        expect(response.body.produtos[0].descricao)
+        expect(response.body.produtos[1].descricao)
           .to.contain(descricaoProduto)
           .that.is.a("string");
       });
@@ -105,7 +105,7 @@ describe("Listagem de produtos", () => {
     });
   });
 
-  context("Cenário de falha", () => {
+  context("Cenários de falha", () => {
     it("Listar produto por ID inexistente", () => {
       cy.request({
         method: "GET",
@@ -132,7 +132,7 @@ describe("Listagem de produtos", () => {
     it("Rota inexistente", () => {
       cy.request({
         method: "GET",
-        url: `${Cypress.env("apiUrl")}/produtoss`, // rota errada
+        url: `${Cypress.env("apiUrl")}/produtoss`,
         failOnStatusCode: false,
       }).then((response) => {
         expect(response.status).to.eq(405);
