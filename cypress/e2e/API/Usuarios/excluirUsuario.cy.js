@@ -53,7 +53,7 @@ describe("Exclusão de usuário", () => {
       const administrador = "true";
       const produtoId = "BeeJh5lz3k6kSIzA";
 
-      criarUsuario(nome, email, senha,administrador).then((userId) => {
+      criarUsuario(nome, email, senha, administrador).then((userId) => {
         loginUsuario(email, senha).then((token) => {
           criarCarrinho(userId, produtoId, token).then(() => {
             excluirUsuario(userId, token).then((res) => {
