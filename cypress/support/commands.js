@@ -86,18 +86,18 @@ export function buscarUsuarioPorId(userId) {
       });
 }
 
-export function criarProduto(nome, preco, descricao, quantidade, token) { 
-cy.request({
+export function criarProduto(token, produto) { 
+  return cy.request({
         method: "POST",
         url: `${Cypress.env("apiUrl")}/produtos`,
         headers: {
           authorization: token,
         },
         body: {
-          nome: nome,
-          preco: preco,
-          descricao: descricao,
-          quantidade: quantidade,
+          nome: produto.nome,
+          preco: produto.preco,
+          descricao: produto.descricao,
+          quantidade: produto.quantidade,
         },
       }).then((response) => {
         expect(response.status).to.eq(201);
@@ -105,5 +105,6 @@ cy.request({
           .to.have.property("message")
           .to.contain("Cadastro realizado com sucesso");
         expect(response.body).to.have.property("_id");
+        return response.body._id;
       });
 }

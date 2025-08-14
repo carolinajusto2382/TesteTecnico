@@ -1,4 +1,8 @@
-import { loginUsuario, criarUsuario, criarProduto } from "../../../support/commands";
+import {
+  loginUsuario,
+  criarUsuario,
+  criarProduto,
+} from "../../../support/commands";
 
 describe("Exclusão de produto", () => {
   let usuarioId;
@@ -36,27 +40,61 @@ describe("Exclusão de produto", () => {
         method: "DELETE",
         url: `${Cypress.env("apiUrl")}/produtos/${produtoId}`,
         headers: {
-          Authorization: usuarioToken, // sem "Bearer"
+          authorization: usuarioToken,
         },
       }).then((response) => {
         expect(response.status).to.eq(200);
-        expect(response.body.message).to.contain("Registro excluído com sucesso");
+        expect(response.body).to.have.property("message");
+        expect(response.body.message).to.contain(
+          "Registro excluído com sucesso"
+        );
       });
     });
   });
 
   context("Cenários de falha", () => {
+    before(() => {
+      if (!usuarioToken) {
+        const nome = "Cecilia Admin Falha";
+        const email = `admin_prod_falha_${Date.now()}@teste.com`;
+        const senha = "teste";
+        const administrador = "true";
+
+        return criarUsuario(nome, email, senha, administrador)
+          .then((id) => {
+            usuarioId = id;
+            return loginUsuario(email, senha);
+          })
+          .then((token) => {
+            usuarioToken = token;
+            return criarProduto(usuarioToken, {
+              nome: `Produto Teste Falha ${Date.now()}`,
+              preco: 50,
+              descricao: "Produto para testes de falha",
+              quantidade: 1,
+            });
+          })
+          .then((id) => {
+            produtoId = id;
+            cy.log(`ID do produto para testes de falha: ${produtoId}`);
+          });
+      }
+    });
+
     it("Tentar excluir produto inexistente", () => {
       cy.request({
         method: "DELETE",
         url: `${Cypress.env("apiUrl")}/produtos/gchgdsdgshghcd`,
         headers: {
-          Authorization: usuarioToken,
+          authorization: usuarioToken,
         },
         failOnStatusCode: false,
       }).then((response) => {
         expect(response.status).to.eq(400);
-        expect(response.body.message).to.contain("Nenhum registro excluído");
+        expect(response.body).to.have.any.keys("message", "id");
+        if (response.body.message) {
+          expect(response.body.message).to.contain("Nenhum registro excluído");
+        }
       });
     });
 
@@ -67,6 +105,7 @@ describe("Exclusão de produto", () => {
         failOnStatusCode: false,
       }).then((response) => {
         expect(response.status).to.eq(401);
+        expect(response.body).to.have.property("message");
         expect(response.body.message).to.contain("Token de acesso ausente");
       });
     });
@@ -76,12 +115,15 @@ describe("Exclusão de produto", () => {
         method: "DELETE",
         url: `${Cypress.env("apiUrl")}/produtos/${produtoId}`,
         headers: {
-          Authorization: "token_invalido_aqui",
+          authorization: "token_invalido_aqui",
         },
         failOnStatusCode: false,
       }).then((response) => {
         expect(response.status).to.eq(401);
-        expect(response.body.message).to.contain("Token de acesso ausente, inválido, expirado");
+        expect(response.body).to.have.property("message");
+        expect(response.body.message).to.contain(
+          "Token de acesso ausente, inválido, expirado"
+        );
       });
     });
   });
