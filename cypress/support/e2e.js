@@ -1,17 +1,17 @@
-// ***********************************************************
-// This example support/e2e.js is processed and
-// loaded automatically before your test files.
-//
-// This is a great place to put global configuration and
-// behavior that modifies Cypress.
-//
-// You can change the location of this file or turn off
-// automatically serving support files with the
-// 'supportFile' configuration option.
-//
-// You can read more here:
-// https://on.cypress.io/configuration
-// ***********************************************************
+export function loginUsuario(email, senha) {
+        cy.visit("https://front.serverest.dev/login");
+        cy.get('[data-testid="email"]').type(email);
+        cy.get('[data-testid="senha"]').type(senha);
+        cy.get('[data-testid="entrar"]').click();
 
-// Import commands.js using ES2015 syntax:
-import './commands'
+
+}
+
+export function cadastrarUsuario(nome, email, senha,checkbox) {
+        cy.visit("https://front.serverest.dev");
+        cy.get('[data-testid="cadastrar"]').click();
+        cy.get('[data-testid="nome"]').type(nome);
+        cy.get('[data-testid="email"]').type(email);
+        cy.get('[data-testid="password"]').type(senha);
+        cy.get('[data-testid="cadastrar"]').click();
+}
