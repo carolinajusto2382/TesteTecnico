@@ -24,7 +24,6 @@ Este projeto contém uma suíte de testes automatizados para a API e frontend do
 - **cypress/e2e/API/Produtos/**: Testes de API para produtos (CRUD, listagem, etc).
 - **cypress/e2e/API/Usuarios/**: Testes de API para usuários (CRUD, listagem, etc).
 - **cypress/e2e/Frontend/**: Testes de interface para funcionalidades de login e carrinho.
-- **cypress/fixtures/**: Dados mockados para uso nos testes.
 - **cypress/support/**: Funções utilitárias e comandos customizados para Cypress.
 
 ## Pré-requisitos
