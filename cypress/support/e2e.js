@@ -6,3 +6,12 @@ export function loginUsuario(email, senha) {
 
 
 }
+
+export function cadastrarUsuario(nome, email, senha,checkbox) {
+        cy.visit("https://front.serverest.dev");
+        cy.get('[data-testid="cadastrar"]').click();
+        cy.get('[data-testid="nome"]').type(nome);
+        cy.get('[data-testid="email"]').type(email);
+        cy.get('[data-testid="password"]').type(senha);
+        cy.get('[data-testid="cadastrar"]').click();
+}

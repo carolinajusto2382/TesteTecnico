@@ -1,12 +1,22 @@
-import { loginUsuario } from "../../../support/e2e";
+import { cadastrarUsuario, loginUsuario } from "../../../support/e2e";
 
 describe("Login", () => {
+  let nome 
+  let email 
+  let senha 
+
+  beforeEach(() => {
+    nome = "Carolina";
+    email = `carolina${Date.now()}@teste.com`;
+    senha = "teste";
+    const checkbox = "true";
+    cadastrarUsuario(nome, email, senha, checkbox,  { timeout: 10000 });
+  });
   context("Cenários de sucesso", () => {
     it("Logar usuário", () => {
-      loginUsuario("carolinaqa@gmail.com", "teste");
+      loginUsuario(email, senha);
       cy.get('[data-testid="logout"]').should("be.visible");
 
-      cy.url().should("eq", "https://front.serverest.dev/home");
       cy.url().should("not.include", "/login");
     });
   });

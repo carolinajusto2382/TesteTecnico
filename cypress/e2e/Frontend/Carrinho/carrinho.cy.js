@@ -1,8 +1,17 @@
-import { loginUsuario } from "../../../support/e2e";
+import { loginUsuario, cadastrarUsuario } from "../../../support/e2e";
 
 describe("Carrinho", () => {
+  let nome;
+  let email;
+  let senha;
+
   beforeEach(() => {
-    loginUsuario("carolinaqa@gmail.com", "teste");
+    nome = "Carolina";
+    email = `carolina${Date.now()}@teste.com`;
+    senha = "teste";
+    const checkbox = "false";
+    cadastrarUsuario(nome, email, senha, checkbox, { timeout: 10000 });
+    loginUsuario(email, senha);
   });
 
   context("Cenários de sucesso", () => {
