@@ -85,3 +85,25 @@ export function buscarUsuarioPorId(userId) {
         expect(response.body).to.have.property("_id", userId);
       });
 }
+
+export function criarProduto(nome, preco, descricao, quantidade, token) { 
+cy.request({
+        method: "POST",
+        url: `${Cypress.env("apiUrl")}/produtos`,
+        headers: {
+          authorization: token,
+        },
+        body: {
+          nome: nome,
+          preco: preco,
+          descricao: descricao,
+          quantidade: quantidade,
+        },
+      }).then((response) => {
+        expect(response.status).to.eq(201);
+        expect(response.body)
+          .to.have.property("message")
+          .to.contain("Cadastro realizado com sucesso");
+        expect(response.body).to.have.property("_id");
+      });
+}
